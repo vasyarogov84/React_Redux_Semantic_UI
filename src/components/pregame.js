@@ -5,20 +5,21 @@ import { Link } from 'react-router-dom';
 import '../styles/pregame.css';
 
 class Pregame extends Component {
-
+   
     renderUsers = (props) => {
         return this.props.users.map((user, i) => {
             return (
-                <Table.Row key={i}>
+                <Table.Row key={i} style={{backgroundColor: 'lightgreen'}}>
                     <Table.Cell>{user.first_name} {user.last_name}</Table.Cell>
-                    <Table.Cell>{user.attempts}</Table.Cell>
-                    <Table.Cell>{user.best_result}</Table.Cell>
+                    <Table.Cell>{user.attempts ? user.attempts : 0}</Table.Cell>
+                    <Table.Cell>{user.best_time}</Table.Cell>
                 </Table.Row>
             );
         })
     }
 
     render() {
+        console.log(this.props);
         return (
             <div className="ui container">
                 <Table celled>

@@ -11,7 +11,7 @@ class Login extends Component {
     first_name: '',
     last_name: '',
     id: uuid(),
-    best_result: 0,
+    best_time: 0,
     attempts: 0
   }
 
