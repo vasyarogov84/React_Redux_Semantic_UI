@@ -4,6 +4,7 @@ import { Checkbox, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import uuid from 'uuid';
 import { addUser } from '../actions';
+import GoogleAuth from '../googleAuth/GoogleAuth';
 import '../styles/login.css';
 
 class Login extends Component {
@@ -19,15 +20,22 @@ class Login extends Component {
     let stateProperty = e.target.name;
     let value = e.target.value;
     this.setState({ [stateProperty]: value });
-}
+  }
 
-checkButton = () => {
-  const { first_name, last_name } = this.state;
-   if (first_name && last_name ) {
-      return  '';
-   } 
-   return 'disabled';
- }
+  checkButton = () => {
+    const { first_name, last_name } = this.state;
+    if (first_name && last_name) {
+      return '';
+    }
+    return 'disabled';
+  }
+  redirect = async ({first_name,last_name},callback) => {
+    await this.props.addUser({...this.state, first_name, last_name});
+    callback();
+    this.props.history.push('./pregame');
+  }
+
+  
   render() {
 
     return (
@@ -49,11 +57,11 @@ checkButton = () => {
             <Checkbox label='I agree to the Terms and Conditions' />
           </Form.Field>
           <Link
-
             className={`ui primary button ${this.checkButton()}`}
             to="/pregame"
             onClick={() => { this.props.addUser(this.state) }}
           >Submit</Link>
+          <GoogleAuth redirect={this.redirect}/>
         </Form>
 
       </div>
