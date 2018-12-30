@@ -4,14 +4,14 @@ export const addUser = user => async (dispatch) => {
     
     if (Object.keys(user).length === 2) {
         const findUser = await users.get('/');
-        const cameBackUserId = await findUser.data.find(({ first_name, last_name, id }) => {
+        const cameBackUserId = await findUser.data.find(({ first_name, last_name}) => {
             return first_name === user.first_name && last_name === user.last_name
         });
        
         await users.delete(`/${cameBackUserId.id}`);
-        const test = await users.post('/', cameBackUserId);
+        await users.post('/', cameBackUserId);
         const getUsers = await users.get('/');
-        console.log(test);
+        
         dispatch({
             type: 'ADD_USER',
             payload: getUsers.data

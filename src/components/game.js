@@ -51,7 +51,7 @@ class Game extends Component {
        this.setState({
          modal : true
         });
-      console.log("STATE", this.state);  
+      
        this.props.updateUser(this.state);
     }
 
