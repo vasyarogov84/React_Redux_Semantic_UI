@@ -1,19 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Login from './components/login';
 import Game from './components/game';
 import Pregame from './components/pregame';
 import reducers from './reducers';
+import reduxThunk from 'redux-thunk';
 
+//const devTools = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__() : null;
 
 
 
 ReactDOM.render(
-    <Provider store={createStore(reducers)}>
+    <Provider store={createStore(reducers,compose(applyMiddleware(reduxThunk)))}>
         <BrowserRouter>
             <div>
                 <Switch>

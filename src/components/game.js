@@ -19,6 +19,8 @@ class Game extends Component {
     let {first_name, last_name, attempts, id } = this.props.curent_user;
     let fullName = `${first_name} ${last_name}`;
     this.setState({ 
+      first_name,
+      last_name,
       start_time: new Date().getTime(),
       name: fullName,
       attempts: attempts + 1,
@@ -29,8 +31,8 @@ class Game extends Component {
   }
 
   setResult = () => {
-   // console.log("PROPS", this.state)
-    if (this.state.clicks < 2) {
+   
+    if (this.state.clicks < 6) {
       let time_when_item_been_clicked = new Date().getTime();
       let start = this.state.start_time;
       let sum = this.state.results.length ? this.state.results.reduce((a, b) => a + b) : 0;
@@ -49,9 +51,7 @@ class Game extends Component {
        this.setState({
          modal : true
         });
-       //console.log(this.state);
-       // Add Action Creator to safe user with current results to state/ create reduser
-       // think about how to use uuid to pass data back and forward
+      console.log("STATE", this.state);  
        this.props.updateUser(this.state);
     }
 

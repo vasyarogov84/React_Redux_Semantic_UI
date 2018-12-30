@@ -15,7 +15,7 @@ class Pregame extends Component {
                     style={{ backgroundColor: (i === this.props.users.length - 1) ? 'lightgreen' : 'white' }}>
                     <Table.Cell>{user.first_name} {user.last_name}</Table.Cell>
                     <Table.Cell>{user.attempts ? user.attempts : 0}</Table.Cell>
-                    <Table.Cell>{user.best_time}</Table.Cell>
+                    <Table.Cell>{(user.best_time/1000).toFixed(3)}</Table.Cell>
                 </Table.Row>
 
             );
@@ -23,7 +23,6 @@ class Pregame extends Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <div className="ui container">
                 <Table celled>
@@ -31,7 +30,7 @@ class Pregame extends Component {
                         <Table.Row>
                             <Table.HeaderCell>Name</Table.HeaderCell>
                             <Table.HeaderCell>Attempts</Table.HeaderCell>
-                            <Table.HeaderCell>Best Result</Table.HeaderCell>
+                            <Table.HeaderCell>Best Result (seconds)</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
@@ -45,7 +44,6 @@ class Pregame extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
         users: state.users
     }

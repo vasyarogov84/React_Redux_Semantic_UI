@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Checkbox, Form } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import uuid from 'uuid';
+import callToGetUsers from '../api/users'
 import { addUser } from '../actions';
 import GoogleAuth from '../googleAuth/GoogleAuth';
 import '../styles/login.css';
@@ -18,7 +19,7 @@ class Login extends Component {
 
   setValues = (e) => {
     let stateProperty = e.target.name;
-    let value = e.target.value;
+    let value = e.target.value.trim();
     this.setState({ [stateProperty]: value });
   }
 
@@ -29,13 +30,25 @@ class Login extends Component {
     }
     return 'disabled';
   }
-  redirect = async ({first_name,last_name},callback) => {
-    await this.props.addUser({...this.state, first_name, last_name});
-    callback();
-    this.props.history.push('./pregame');
+  redirect = async ({ first_name, last_name }, callback) => {
+    const usersInDataBase = await callToGetUsers.get('/');
+    //console.log(usersInDataBase);
+    const checkUser = await usersInDataBase.data.find(user => 
+      user.first_name ===  first_name && user.last_name ===  last_name
+      );
+      //console.log(checkUser);
+    if (checkUser) {
+      await this.props.addUser({first_name, last_name });
+      this.props.history.push('./pregame');
+    } else {
+      await this.props.addUser({ ...this.state, first_name, last_name });
+      callback();
+      this.props.history.push('./pregame');
+    }
+    
   }
 
-  
+
   render() {
 
     return (
@@ -53,15 +66,12 @@ class Login extends Component {
               onChange={this.setValues}
             />
           </Form.Field>
-          <Form.Field>
-            <Checkbox label='I agree to the Terms and Conditions' />
-          </Form.Field>
           <Link
             className={`ui primary button ${this.checkButton()}`}
             to="/pregame"
-            onClick={() => { this.props.addUser(this.state) }}
+            onClick={() => { this.redirect(this.state) }}
           >Submit</Link>
-          <GoogleAuth redirect={this.redirect}/>
+          <GoogleAuth redirect={this.redirect} />
         </Form>
 
       </div>
