@@ -27,13 +27,12 @@ class GoogleAuth extends Component {
     }
     googleAuth = async () => {
         if (this.state.isSignedIn) {
+            this.auth.signOut();
             this.props.redirect(this.state); 
         } else {
            await this.auth.signIn();
             let { ofa: first_name, wea: last_name } = this.auth.currentUser.get().w3;
-            this.props.redirect({first_name, last_name}, () => 
-                this.auth.signOut()
-            );
+            this.props.redirect({first_name, last_name});
         }
     }
 

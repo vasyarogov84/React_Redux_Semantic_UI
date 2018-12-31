@@ -30,7 +30,7 @@ class Login extends Component {
     }
     return 'disabled';
   }
-  redirect = async ({ first_name, last_name }, callback) => {
+  redirect = async ({ first_name, last_name }) => {
     const usersInDataBase = await callToGetUsers.get('/');
     //console.log(usersInDataBase);
     const checkUser = await usersInDataBase.data.find(user => 
@@ -39,10 +39,10 @@ class Login extends Component {
       //console.log(checkUser);
     if (checkUser) {
       await this.props.addUser({first_name, last_name });
+      
       this.props.history.push('./pregame');
     } else {
       await this.props.addUser({ ...this.state, first_name, last_name });
-      callback();
       this.props.history.push('./pregame');
     }
     
