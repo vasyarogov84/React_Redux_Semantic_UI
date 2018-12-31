@@ -10,12 +10,12 @@ import Pregame from './components/pregame';
 import reducers from './reducers';
 import reduxThunk from 'redux-thunk';
 
-//const devTools = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__() : null;
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
 
 ReactDOM.render(
-    <Provider store={createStore(reducers,compose(applyMiddleware(reduxThunk)))}>
+    <Provider store={createStore(reducers,devTools(applyMiddleware(reduxThunk)))}>
         <BrowserRouter>
             <div>
                 <Switch>
